@@ -17,6 +17,7 @@ import proveedorRoutes from './routes/proveedorRoutes';
 import salidaEmpleadosRoutes from './routes/salidaEmpleadoRoutes';
 import salidaLineaRoutes from './routes/salidaLineaRoutes';
 import usuarioRoutes from './routes/usuarioRoutes';
+import menuRoutes from './routes/menuRoutes';
 
 class Server{
     public app : Application;
@@ -48,6 +49,7 @@ class Server{
         this.app.use('/api/salEmp',salidaEmpleadosRoutes);
         this.app.use('/api/salLinea',salidaLineaRoutes);
         this.app.use('/api/usuarios',usuarioRoutes);
+        this.app.use('/api/menu',menuRoutes);
     }
 
     start():void{
