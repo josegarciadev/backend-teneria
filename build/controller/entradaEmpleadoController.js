@@ -12,19 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.departamentosController = void 0;
+exports.entradaEmpleadosController = void 0;
 const database_1 = __importDefault(require("../database"));
-class DepartamentosController {
+class EntradaEmpleadosController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = yield database_1.default.query('select * from departamentos');
+            const query = yield database_1.default.query('select *,entrada_empleado.id_empleado from entrada_empleado inner join empleados on entrada_empleado.id_empleado = empleados.id_empleado');
             res.json(query);
         });
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const query = yield database_1.default.query('select * from departamentos where id_departamento=?', [id]);
+            const query = yield database_1.default.query('select *,entrada_empleado.id_empleado from entrada_empleado inner join empleados on entrada_empleado.id_empleado = empleados.id_empleado where id_entrada=?', [id]);
             if (query.length > 0) {
                 return res.json(query[0]);
             }
@@ -35,23 +35,23 @@ class DepartamentosController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('insert into departamentos set ?', [req.body]);
+            yield database_1.default.query('insert into entrada_empleado set ?', [req.body]);
             res.json({ message: 'Creado con exito' });
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('delete from departamentos where id_departamento= ?', [id]);
+            yield database_1.default.query('delete from entrada_empleado where id_entrada= ?', [id]);
             res.json({ message: 'Eliminado con exito' });
         });
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('update departamentos set ? where id_departamento=?', [req.body, id]);
+            yield database_1.default.query('update entrada_empleado set ? where id_entrada=?', [req.body, id]);
             res.json({ message: 'Actualizado con exito' });
         });
     }
 }
-exports.departamentosController = new DepartamentosController();
+exports.entradaEmpleadosController = new EntradaEmpleadosController();

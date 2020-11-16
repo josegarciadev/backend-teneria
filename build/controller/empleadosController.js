@@ -17,15 +17,14 @@ const database_1 = __importDefault(require("../database"));
 class EmpleadosController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = yield database_1.default.query('select * from empleados');
+            const query = yield database_1.default.query('select *,empleados.id_departamento from empleados inner join departamentos on empleados.id_departamento = departamentos.id_departamento');
             res.json(query);
-            console.log(query);
         });
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const query = yield database_1.default.query('select * from empleados where id_empleado=?', [id]);
+            const query = yield database_1.default.query('select *,empleados.id_departamento  from empleados inner join departamentos on empleados.id_departamento = departamentos.id_departamento where id_empleado=?', [id]);
             if (query.length > 0) {
                 return res.json(query[0]);
             }

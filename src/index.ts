@@ -7,6 +7,11 @@ import cors from 'cors';
 //Rutas
 import departamentosRoutes from './routes/departamentosRoutes';
 import empleadosRoutes from './routes/empleadosRoutes';
+import entradaEmpleadoRoutes from './routes/entradaEmpleadoRoutes';
+import entradaLineaRoutes from './routes/entradaLineaRoutes';
+import lineaRoutes from './routes/lineaRoutes';
+import lineaProductoRoutes from './routes/lineaProductoRoutes';
+
 class Server{
     public app : Application;
     constructor(){
@@ -27,6 +32,10 @@ class Server{
         this.app.use('',indexRoutes);
         this.app.use('/api/dep',departamentosRoutes);
         this.app.use('/api/emp',empleadosRoutes);
+        this.app.use('/api/entEmp',entradaEmpleadoRoutes);
+        this.app.use('/api/entLinea',entradaLineaRoutes)
+        this.app.use('/api/linea',lineaRoutes);
+        this.app.use('/api/lineaprod',lineaProductoRoutes);
     }
 
     start():void{
