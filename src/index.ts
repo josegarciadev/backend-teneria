@@ -11,6 +11,12 @@ import entradaEmpleadoRoutes from './routes/entradaEmpleadoRoutes';
 import entradaLineaRoutes from './routes/entradaLineaRoutes';
 import lineaRoutes from './routes/lineaRoutes';
 import lineaProductoRoutes from './routes/lineaProductoRoutes';
+import productosRoutes from './routes/productoRoutes';
+import prodprovRoutes from './routes/prodprovRoutes';
+import proveedorRoutes from './routes/proveedorRoutes';
+import salidaEmpleadosRoutes from './routes/salidaEmpleadoRoutes';
+import salidaLineaRoutes from './routes/salidaLineaRoutes';
+import usuarioRoutes from './routes/usuarioRoutes';
 
 class Server{
     public app : Application;
@@ -36,6 +42,12 @@ class Server{
         this.app.use('/api/entLinea',entradaLineaRoutes)
         this.app.use('/api/linea',lineaRoutes);
         this.app.use('/api/lineaprod',lineaProductoRoutes);
+        this.app.use('/api/productos',productosRoutes);
+        this.app.use('/api/prodprov', prodprovRoutes);
+        this.app.use('/api/proveedor',proveedorRoutes);
+        this.app.use('/api/salEmp',salidaEmpleadosRoutes);
+        this.app.use('/api/salLinea',salidaLineaRoutes);
+        this.app.use('/api/usuarios',usuarioRoutes);
     }
 
     start():void{

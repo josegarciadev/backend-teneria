@@ -14,6 +14,12 @@ const entradaEmpleadoRoutes_1 = __importDefault(require("./routes/entradaEmplead
 const entradaLineaRoutes_1 = __importDefault(require("./routes/entradaLineaRoutes"));
 const lineaRoutes_1 = __importDefault(require("./routes/lineaRoutes"));
 const lineaProductoRoutes_1 = __importDefault(require("./routes/lineaProductoRoutes"));
+const productoRoutes_1 = __importDefault(require("./routes/productoRoutes"));
+const prodprovRoutes_1 = __importDefault(require("./routes/prodprovRoutes"));
+const proveedorRoutes_1 = __importDefault(require("./routes/proveedorRoutes"));
+const salidaEmpleadoRoutes_1 = __importDefault(require("./routes/salidaEmpleadoRoutes"));
+const salidaLineaRoutes_1 = __importDefault(require("./routes/salidaLineaRoutes"));
+const usuarioRoutes_1 = __importDefault(require("./routes/usuarioRoutes"));
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -35,6 +41,12 @@ class Server {
         this.app.use('/api/entLinea', entradaLineaRoutes_1.default);
         this.app.use('/api/linea', lineaRoutes_1.default);
         this.app.use('/api/lineaprod', lineaProductoRoutes_1.default);
+        this.app.use('/api/productos', productoRoutes_1.default);
+        this.app.use('/api/prodprov', prodprovRoutes_1.default);
+        this.app.use('/api/proveedor', proveedorRoutes_1.default);
+        this.app.use('/api/salEmp', salidaEmpleadoRoutes_1.default);
+        this.app.use('/api/salLinea', salidaLineaRoutes_1.default);
+        this.app.use('/api/usuarios', usuarioRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {
