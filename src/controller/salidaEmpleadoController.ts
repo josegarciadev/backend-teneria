@@ -4,14 +4,14 @@ import pool from '../database';
 class SalidaEmpleadosController{
 
     public async list(req:Request, res: Response):Promise<void>{
-        const query = await pool.query('select *,salida_empleado.id_empleado from salida_empleado inner join empleados on salida_empleado.id_empleado= empleados.id_empleado');
+        const query = await pool.query('select *,salida_empleado.id_empleado,empleados.id_departamento  from salida_empleado inner join empleados on salida_empleado.id_empleado= empleados.id_empleado inner join departamentos on empleados.id_departamento=departamentos.id_departamento  ORDER BY `salida_empleado`.`id_salida` ASC');
         res.json(query);
         
     }
 
     public async getOne(req:Request, res:Response):Promise<any>{
         const {id} = req.params;
-        const query = await pool.query('select *,salida_empleado.id_empleado from salida_empleado inner join empleados on salida_empleado.id_empleado= empleados.id_empleado where id_salida=?',[id]);
+        const query = await pool.query('select *,salida_empleado.id_empleado from salida_empleado inner join empleados on salida_empleado.id_empleado= empleados.id_empleado where id_salida=?  ORDER BY `salida_empleado`.`id_salida` ASC',[id]);
         if(query.length>0){
             return res.json(query[0]);
         }

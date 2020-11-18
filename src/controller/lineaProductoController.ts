@@ -4,14 +4,14 @@ import pool from '../database';
 class LineaProductoController{
 
     public async list(req:Request, res: Response):Promise<void>{
-        const query = await pool.query('select *,linea_producto.id_prodpro,linea_producto.id_linea,prod_provee.id_producto as id_prod ,prod_provee.id_proveedor as id_prov,prod_provee.id_producto,producto.nombre_producto as nom_prod,producto.unidad_medida as unid_med,prod_provee.id_proveedor,proveedor.nombre_proveedor as nom_prov,linea.nombre_linea as nom_linea,linea.id_departamento,departamentos.nombre_departamento as nom_dep from linea_producto inner join prod_provee on linea_producto.id_prodpro=prod_provee.id_prodpro inner join producto on prod_provee.id_producto=producto.id_producto inner join proveedor on prod_provee.id_proveedor=proveedor.id_proveedor inner join linea on linea_producto.id_linea=linea.id_linea inner join departamentos on linea.id_departamento=departamentos.id_departamento');
+        const query = await pool.query('select *,linea_producto.id_prodpro,linea_producto.id_linea,prod_provee.id_producto,prod_provee.id_proveedor,prod_provee.id_producto,prod_provee.id_proveedor,linea.id_departamento from linea_producto inner join prod_provee on linea_producto.id_prodpro=prod_provee.id_prodpro inner join producto on prod_provee.id_producto=producto.id_producto inner join proveedor on prod_provee.id_proveedor=proveedor.id_proveedor inner join linea on linea_producto.id_linea=linea.id_linea inner join departamentos on linea.id_departamento=departamentos.id_departamento ORDER BY `id_lineaprod` ASC');
         res.json(query);
         
     }
 
     public async getOne(req:Request, res:Response):Promise<any>{
         const {id} = req.params;
-        const query = await pool.query('select *,linea_producto.id_prodpro,linea_producto.id_linea,prod_provee.id_producto as id_prod ,prod_provee.id_proveedor as id_prov,prod_provee.id_producto,producto.nombre_producto as nom_prod,producto.unidad_medida as unid_med,prod_provee.id_proveedor,proveedor.nombre_proveedor as nom_prov,linea.nombre_linea as nom_linea,linea.id_departamento,departamentos.nombre_departamento as nom_dep from linea_producto inner join prod_provee on linea_producto.id_prodpro=prod_provee.id_prodpro inner join producto on prod_provee.id_producto=producto.id_producto inner join proveedor on prod_provee.id_proveedor=proveedor.id_proveedor inner join linea on linea_producto.id_linea=linea.id_linea inner join departamentos on linea.id_departamento=departamentos.id_departamento where id_lineaprod=?',[id]);
+        const query = await pool.query('select *,linea_producto.id_prodpro,linea_producto.id_linea,prod_provee.id_producto,prod_provee.id_proveedor,prod_provee.id_producto,prod_provee.id_proveedor,linea.id_departamento from linea_producto inner join prod_provee on linea_producto.id_prodpro=prod_provee.id_prodpro inner join producto on prod_provee.id_producto=producto.id_producto inner join proveedor on prod_provee.id_proveedor=proveedor.id_proveedor inner join linea on linea_producto.id_linea=linea.id_linea inner join departamentos on linea.id_departamento=departamentos.id_departamento where id_lineaprod=? ORDER BY `id_lineaprod` ASC',[id]);
         if(query.length>0){
             return res.json(query[0]);
         }

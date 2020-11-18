@@ -17,14 +17,14 @@ const database_1 = __importDefault(require("../database"));
 class ProdprovController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = yield database_1.default.query('select *,id_prodpro,prod_provee.id_producto,producto.nombre_producto as nom_prod,producto.codigo_producto as cod_prod,producto.unidad_medida as unid_med ,prod_provee.id_proveedor,proveedor.nombre_proveedor as nom_prov,proveedor.descripcion_prov as des_prov from prod_provee inner join producto on prod_provee.id_producto=producto.id_producto inner join proveedor on prod_provee.id_proveedor=proveedor.id_proveedor');
+            const query = yield database_1.default.query('select *,id_prodpro,prod_provee.id_producto,producto.nombre_producto as nom_prod,producto.codigo_producto as cod_prod,producto.unidad_medida as unid_med ,prod_provee.id_proveedor,proveedor.nombre_proveedor as nom_prov,proveedor.descripcion_prov as des_prov from prod_provee inner join producto on prod_provee.id_producto=producto.id_producto inner join proveedor on prod_provee.id_proveedor=proveedor.id_proveedor ORDER BY `prod_provee`.`id_prodpro` ASC');
             res.json(query);
         });
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const query = yield database_1.default.query('select *,id_prodpro,prod_provee.id_producto,producto.nombre_producto as nom_prod,producto.codigo_producto as cod_prod,producto.unidad_medida as unid_med ,prod_provee.id_proveedor,proveedor.nombre_proveedor as nom_prov,proveedor.descripcion_prov as des_prov from prod_provee inner join producto on prod_provee.id_producto=producto.id_producto inner join proveedor on prod_provee.id_proveedor=proveedor.id_proveedor where id_prodpro=?', [id]);
+            const query = yield database_1.default.query('select *,id_prodpro,prod_provee.id_producto,producto.nombre_producto as nom_prod,producto.codigo_producto as cod_prod,producto.unidad_medida as unid_med ,prod_provee.id_proveedor,proveedor.nombre_proveedor as nom_prov,proveedor.descripcion_prov as des_prov from prod_provee inner join producto on prod_provee.id_producto=producto.id_producto inner join proveedor on prod_provee.id_proveedor=proveedor.id_proveedor where id_prodpro=? ORDER BY `prod_provee`.`id_prodpro` ASC', [id]);
             if (query.length > 0) {
                 return res.json(query[0]);
             }

@@ -10,6 +10,7 @@ class EntradaLineaRoutes {
     config() {
         this.router.get('/', entradaLineaController_1.entradaLineaController.list);
         this.router.get('/:id', entradaLineaController_1.entradaLineaController.getOne);
+        this.router.get('/linea/:id', entradaLineaController_1.entradaLineaController.getLinea);
         this.router.post('/', entradaLineaController_1.entradaLineaController.create);
         this.router.delete('/:id', entradaLineaController_1.entradaLineaController.delete);
         this.router.put('/:id', entradaLineaController_1.entradaLineaController.update);

@@ -17,14 +17,14 @@ const database_1 = __importDefault(require("../database"));
 class EntradaEmpleadosController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = yield database_1.default.query('select *,entrada_empleado.id_empleado from entrada_empleado inner join empleados on entrada_empleado.id_empleado = empleados.id_empleado');
+            const query = yield database_1.default.query('select *,entrada_empleado.id_empleado,empleados.id_departamento from entrada_empleado inner join empleados on entrada_empleado.id_empleado = empleados.id_empleado inner join departamentos on empleados.id_departamento=departamentos.id_departamento  ORDER BY `entrada_empleado`.`id_entrada` ASC');
             res.json(query);
         });
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const query = yield database_1.default.query('select *,entrada_empleado.id_empleado from entrada_empleado inner join empleados on entrada_empleado.id_empleado = empleados.id_empleado where id_entrada=?', [id]);
+            const query = yield database_1.default.query('select *,entrada_empleado.id_empleado from entrada_empleado inner join empleados on entrada_empleado.id_empleado = empleados.id_empleado where id_entrada=?  ORDER BY `entrada_empleado`.`id_entrada` ASC', [id]);
             if (query.length > 0) {
                 return res.json(query[0]);
             }

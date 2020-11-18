@@ -17,14 +17,14 @@ const database_1 = __importDefault(require("../database"));
 class LineaController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = yield database_1.default.query('select  *,linea.id_departamento,departamentos.nombre_departamento as nom_dep, departamentos.descripcion_dep as des_dep from linea inner join departamentos on linea.id_departamento=departamentos.id_departamento');
+            const query = yield database_1.default.query('select  *,linea.id_departamento from linea inner join departamentos on linea.id_departamento=departamentos.id_departamento');
             res.json(query);
         });
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const query = yield database_1.default.query('select  *,linea.id_departamento,departamentos.nombre_departamento as nom_dep, departamentos.descripcion_dep as des_dep from linea inner join departamentos on linea.id_departamento=departamentos.id_departamento where id_linea=?', [id]);
+            const query = yield database_1.default.query('select  *,linea.id_departamento from linea inner join departamentos on linea.id_departamento=departamentos.id_departamento where id_linea=?', [id]);
             if (query.length > 0) {
                 return res.json(query[0]);
             }
