@@ -33,6 +33,27 @@ class UsuarioController {
             });
         });
     }
+    login(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(req.body);
+            const query = yield database_1.default.query('select * from usuario where user=?', [req.body.user]);
+            if (query.length > 0) {
+                let password = query[0].pass;
+                if (password == req.body.pass) {
+                    return res.json(query[0]);
+                }
+                else {
+                    return res.json({ message: 'Credenciales invalidas. pass' });
+                }
+            }
+            res.status(404).json({
+                message: 'usuario no encontrado'
+            });
+            res.status(200).json({
+                message: 'no funciona'
+            });
+        });
+    }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             yield database_1.default.query('insert into usuario set ?', [req.body]);
