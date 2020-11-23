@@ -43,7 +43,7 @@ class UsuarioController {
                     return res.json(query[0]);
                 }
                 else {
-                    return res.json({ message: 'Credenciales invalidas. pass' });
+                    return res.json({ message: false });
                 }
             }
             res.status(404).json({
@@ -56,13 +56,24 @@ class UsuarioController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const id_user = req.body.id_user;
+            const nombre = req.body.nombre_user;
+            delete req.body.id_user;
+            delete req.body.nombre_user;
+            yield database_1.default.query('set @id_usuario=?', [id_user]);
+            yield database_1.default.query('set @nombre=?', [nombre]);
             yield database_1.default.query('insert into usuario set ?', [req.body]);
             res.json({ message: 'Creado con exito' });
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
+            const datos = JSON.parse(req.params.id);
+            const id_user = datos.id_user;
+            const nombre_user = datos.nombre_user;
+            const id = datos.id;
+            yield database_1.default.query('set @id_usuario=?', [id_user]);
+            yield database_1.default.query('set @nombre=?', [nombre_user]);
             yield database_1.default.query('delete from usuario where id_usuario= ?', [id]);
             res.json({ message: 'Eliminado con exito' });
         });
@@ -70,8 +81,33 @@ class UsuarioController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
+            var id_user = req.body.id_user;
+            var nombre_user = req.body.nombre_user;
+            console.log(id_user);
+            yield database_1.default.query('select @id_usuario := ?, @nombre:=?', [id_user, nombre_user]);
+            //await pool.query('select @nombre := ?',[nombre_user]);
+            delete req.body.id_user;
+            delete req.body.nombre_user;
             yield database_1.default.query('update usuario set ? where id_usuario=?', [req.body, id]);
             res.json({ message: 'Actualizado con exito' });
+        });
+    }
+    getrol(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = yield database_1.default.query('select * from roles');
+            res.json(query);
+        });
+    }
+    getmenu(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const query = yield database_1.default.query('SELECT id_rol,menu.id_modulo,titulo,icono,submenu FROM `menu` INNER JOIN modulo on menu.id_modulo=modulo.id_modulo WHERE id_rol =? ORDER BY `menu`.`id_modulo` ASC ', [id]);
+            if (query.length > 0) {
+                return res.json(query);
+            }
+            return res.status(404).json({
+                message: 'Error al buscar el id'
+            });
         });
     }
 }

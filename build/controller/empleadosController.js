@@ -17,7 +17,7 @@ const database_1 = __importDefault(require("../database"));
 class EmpleadosController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = yield database_1.default.query('select *,empleados.id_departamento from empleados inner join departamentos on empleados.id_departamento = departamentos.id_departamento');
+            const query = yield database_1.default.query('select *,empleados.id_departamento from empleados inner join departamentos on empleados.id_departamento = departamentos.id_departamento ORDER BY `empleados`.`id_empleado` ASC');
             res.json(query);
         });
     }
@@ -35,20 +35,40 @@ class EmpleadosController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const id_user = req.body.id_user;
+            const nombre = req.body.nombre_user;
+            delete req.body.id_user;
+            delete req.body.nombre_user;
+            yield database_1.default.query('set @id_usuario=?', [id_user]);
+            yield database_1.default.query('set @nombre=?', [nombre]);
             yield database_1.default.query('insert into empleados set ?', [req.body]);
             res.json({ message: 'Creado con exito' });
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            yield database_1.default.query('delete from empleados where id_empleado= ?', [id]);
+            const datos = JSON.parse(req.params.id);
+            const id_user = datos.id_user;
+            const nombre_user = datos.nombre_user;
+            var id = datos.id;
+            console.log(datos);
+            yield database_1.default.query('set @id_usuario=?', [id_user]);
+            yield database_1.default.query('set @nombre=?', [nombre_user]);
+            const q = yield database_1.default.query('delete from empleados where id_empleado= ?', [id]);
+            console.log(q);
             res.json({ message: 'Eliminado con exito' });
         });
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
+            var id_user = req.body.id_user;
+            var nombre_user = req.body.nombre_user;
+            console.log(id_user);
+            yield database_1.default.query('select @id_usuario := ?, @nombre:=?', [id_user, nombre_user]);
+            //await pool.query('select @nombre := ?',[nombre_user]);
+            delete req.body.id_user;
+            delete req.body.nombre_user;
             yield database_1.default.query('update empleados set ? where id_empleado=?', [req.body, id]);
             res.json({ message: 'Actualizado con exito' });
         });

@@ -4,6 +4,7 @@ import pool from '../database';
 class DepartamentosController{
 
     public async list(req:Request, res: Response):Promise<void>{
+
         const query = await pool.query('select * from departamentos');
         res.json(query);
         
@@ -21,6 +22,13 @@ class DepartamentosController{
     }
 
     public async create (req:Request, res: Response):Promise<void>{
+        const id_user=req.body.id_user;
+        const nombre= req.body.nombre_user;
+        
+        delete req.body.id_user;
+        delete req.body.nombre_user;
+        await pool.query('set @id_usuario=?',[id_user]);
+        await pool.query('set @nombre=?',[nombre]);
         await pool.query('insert into departamentos set ?',[req.body]);
         res.json({message:'Creado con exito'});
     }

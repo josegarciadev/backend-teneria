@@ -9,7 +9,9 @@ class UsuarioRoutes {
     }
     config() {
         this.router.get('/', usuarioController_1.usuarioController.list);
-        this.router.get('/:id', usuarioController_1.usuarioController.getOne);
+        this.router.get('/getone/:id', usuarioController_1.usuarioController.getOne);
+        this.router.get('/rol/', usuarioController_1.usuarioController.getrol);
+        this.router.get('/menu/:id', usuarioController_1.usuarioController.getmenu);
         this.router.post('/', usuarioController_1.usuarioController.create);
         this.router.post('/login/', usuarioController_1.usuarioController.login);
         this.router.delete('/:id', usuarioController_1.usuarioController.delete);

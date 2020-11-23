@@ -35,6 +35,12 @@ class DepartamentosController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const id_user = req.body.id_user;
+            const nombre = req.body.nombre_user;
+            delete req.body.id_user;
+            delete req.body.nombre_user;
+            yield database_1.default.query('set @id_usuario=?', [id_user]);
+            yield database_1.default.query('set @nombre=?', [nombre]);
             yield database_1.default.query('insert into departamentos set ?', [req.body]);
             res.json({ message: 'Creado con exito' });
         });

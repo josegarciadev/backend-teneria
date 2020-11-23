@@ -18,7 +18,8 @@ import salidaEmpleadosRoutes from './routes/salidaEmpleadoRoutes';
 import salidaLineaRoutes from './routes/salidaLineaRoutes';
 import usuarioRoutes from './routes/usuarioRoutes';
 import menuRoutes from './routes/menuRoutes';
-
+import auditoriasAlmacenRoutes from './routes/auditoriasAlmacenRoutes';
+import auditoriasRecursoshRoutes from './routes/auditoriasRecursoshRoutes';
 class Server{
     public app : Application;
     constructor(){
@@ -50,6 +51,8 @@ class Server{
         this.app.use('/api/salLinea',salidaLineaRoutes);
         this.app.use('/api/usuarios',usuarioRoutes);
         this.app.use('/api/menu',menuRoutes);
+        this.app.use('/api/audital',auditoriasAlmacenRoutes);
+        this.app.use('/api/auditre',auditoriasRecursoshRoutes);
     }
 
     start():void{

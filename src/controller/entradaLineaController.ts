@@ -31,18 +31,43 @@ class EntradaLineaController{
     }
 
     public async create (req:Request, res: Response):Promise<void>{
+        const id_user=req.body.id_user;
+        const nombre= req.body.nombre_user;
+        
+        delete req.body.id_user;
+        delete req.body.nombre_user;
+        await pool.query('set @id_usuario=?',[id_user]);
+        await pool.query('set @nombre=?',[nombre]);
         await pool.query('insert into entrada_linea set ?',[req.body]);
         res.json({message:'Creado con exito'});
     }
 
     public async delete(req: Request, res: Response):Promise<void>{
-        const {id} = req.params;
+        
+        const datos = JSON.parse(req.params.id);
+        const id_user =datos.id_user;
+        const nombre_user = datos.nombre_user;
+        const id = datos.id;
+      
+        await pool.query('set @id_usuario=?',[id_user]);
+        await pool.query('set @nombre=?',[nombre_user]);
         await pool.query('delete from entrada_linea where nro_orden= ?',[id]);
         res.json({message:'Eliminado con exito'});
     }
 
+    
+
     public async update(req:Request, res:Response):Promise<void>{
+        
         const {id} = req.params;
+        const id_user= req.body.id_user;
+        const nombre= req.body.nombre_user;
+        console.log(req.body);
+        delete req.body.id_user;
+        delete req.body.nombre_user;
+        
+        await pool.query('set @id_usuario=?',[id_user]);
+        await pool.query('set @nombre=?',[nombre]);
         await pool.query('update entrada_linea set ? where nro_orden=?',[req.body,id]);
         res.json({message:'Actualizado con exito'});
     }

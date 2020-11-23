@@ -4,8 +4,8 @@ import pool from '../database';
 class SalidaLineaController{
 
     public async list(req:Request, res: Response):Promise<void>{
-        const query = await pool.query('select *,salida_linea.id_linea,salida_linea.id_empleado,salida_linea.id_lineaprod,linea.id_departamento,linea.nombre_linea as nom_lin,departamentos.nombre_departamento as nom_dep,linea_producto.id_prodpro,prod_provee.id_producto,prod_provee.id_proveedor,producto.nombre_producto as nom_prod,producto.codigo_producto as cod_prod, producto.unidad_medida as unid_med,proveedor.nombre_proveedor as nom_prov from salida_linea inner join linea on salida_linea.id_linea=linea.id_linea inner join departamentos on linea.id_departamento=departamentos.id_departamento inner join linea_producto on salida_linea.id_lineaprod=linea_producto.id_lineaprod inner join prod_provee on linea_producto.id_prodpro=prod_provee.id_prodpro inner join producto on prod_provee.id_producto=producto.id_producto inner join proveedor on prod_provee.id_proveedor=proveedor.id_proveedor inner join empleados on salida_linea.id_empleado = empleados.id_empleado');
-        res.json(query);
+        const query = await pool.query('select *,salida_linea.id_linea,salida_linea.id_empleado,salida_linea.id_lineaprod,linea.id_departamento,linea.nombre_linea as nom_lin,departamentos.nombre_departamento as nom_dep,linea_producto.id_prodpro,prod_provee.id_producto,prod_provee.id_proveedor,producto.nombre_producto as nom_prod,producto.codigo_producto as cod_prod, producto.unidad_medida as unid_med,proveedor.nombre_proveedor as nom_prov from salida_linea inner join linea on salida_linea.id_linea=linea.id_linea inner join departamentos on linea.id_departamento=departamentos.id_departamento inner join linea_producto on salida_linea.id_lineaprod=linea_producto.id_lineaprod inner join prod_provee on linea_producto.id_prodpro=prod_provee.id_prodpro inner join producto on prod_provee.id_producto=producto.id_producto inner join proveedor on prod_provee.id_proveedor=proveedor.id_proveedor inner join empleados on salida_linea.id_empleado = empleados.id_empleado  ORDER BY `salida_linea`.`fecha` ASC');
+        res.json(query); 
         
     }
 
@@ -32,18 +32,42 @@ class SalidaLineaController{
     }
     
     public async create (req:Request, res: Response):Promise<void>{
+        const id_user=req.body.id_user;
+        const nombre = req.body.nombre_user;
+        
+        delete req.body.id_user;
+        delete req.body.nombre_user;
+        await pool.query('set @id_usuario=?',[id_user]);
+        await pool.query('set @nombre=?',[nombre]);
         await pool.query('insert into salida_linea set ?',[req.body]);
         res.json({message:'Creado con exito'});
     }
 
     public async delete(req: Request, res: Response):Promise<void>{
-        const {id} = req.params;
+
+        const datos = JSON.parse(req.params.id);
+        const id_user =datos.id_user;
+        const nombre_user = datos.nombre_user;
+        const id = datos.id;
+      
+        await pool.query('set @id_usuario=?',[id_user]);
+        await pool.query('set @nombre=?',[nombre_user]);
         await pool.query('delete from salida_linea where nro_orden= ?',[id]);
         res.json({message:'Eliminado con exito'});
     }
 
     public async update(req:Request, res:Response):Promise<void>{
         const {id} = req.params;
+        var id_user = req.body.id_user;
+        var nombre_user =req.body.nombre_user
+        console.log(id_user);
+         
+    
+        await pool.query('select @id_usuario := ?, @nombre:=?',[id_user,nombre_user]);
+        //await pool.query('select @nombre := ?',[nombre_user]);
+        
+        delete req.body.id_user;
+        delete req.body.nombre_user;
         await pool.query('update salida_linea set ? where nro_orden=?',[req.body,id]);
         res.json({message:'Actualizado con exito'});
     }

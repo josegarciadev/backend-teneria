@@ -9,11 +9,14 @@ class UsuarioRoutes {
 
     config():void{
         this.router.get('/', usuarioController.list);
-        this.router.get('/:id',usuarioController.getOne);
+        this.router.get('/getone/:id',usuarioController.getOne);
+        this.router.get('/rol/',usuarioController.getrol);
+        this.router.get('/menu/:id',usuarioController.getmenu);
         this.router.post('/', usuarioController.create); 
         this.router.post('/login/', usuarioController.login); 
         this.router.delete('/:id',usuarioController.delete);
         this.router.put('/:id',usuarioController.update);
+        
     }
 }
 

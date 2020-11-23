@@ -21,6 +21,8 @@ const salidaEmpleadoRoutes_1 = __importDefault(require("./routes/salidaEmpleadoR
 const salidaLineaRoutes_1 = __importDefault(require("./routes/salidaLineaRoutes"));
 const usuarioRoutes_1 = __importDefault(require("./routes/usuarioRoutes"));
 const menuRoutes_1 = __importDefault(require("./routes/menuRoutes"));
+const auditoriasAlmacenRoutes_1 = __importDefault(require("./routes/auditoriasAlmacenRoutes"));
+const auditoriasRecursoshRoutes_1 = __importDefault(require("./routes/auditoriasRecursoshRoutes"));
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -49,6 +51,8 @@ class Server {
         this.app.use('/api/salLinea', salidaLineaRoutes_1.default);
         this.app.use('/api/usuarios', usuarioRoutes_1.default);
         this.app.use('/api/menu', menuRoutes_1.default);
+        this.app.use('/api/audital', auditoriasAlmacenRoutes_1.default);
+        this.app.use('/api/auditre', auditoriasRecursoshRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {
