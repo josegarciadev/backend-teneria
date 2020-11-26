@@ -11,6 +11,7 @@ class AuditoriasAlmacenRoutes {
         this.router.get('/entsal/', auditoriasAlmacenController_1.auditoriasAlmacenController.getEntSal);
         this.router.get('/entsalup/', auditoriasAlmacenController_1.auditoriasAlmacenController.getEntSalUp);
         this.router.get('/usuarios/', auditoriasAlmacenController_1.auditoriasAlmacenController.getUser);
+        this.router.get('/sesiones/', auditoriasAlmacenController_1.auditoriasAlmacenController.getSesiones);
     }
 }
 const auditoriasAlmacenRoutes = new AuditoriasAlmacenRoutes();

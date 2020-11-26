@@ -12,6 +12,7 @@ import {auditoriasAlmacenController} from '../controller/auditoriasAlmacenContro
         this.router.get('/entsal/',auditoriasAlmacenController.getEntSal)
         this.router.get('/entsalup/',auditoriasAlmacenController.getEntSalUp);
         this.router.get('/usuarios/',auditoriasAlmacenController.getUser);
+        this.router.get('/sesiones/',auditoriasAlmacenController.getSesiones);
     }
 
  }

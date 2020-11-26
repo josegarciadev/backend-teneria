@@ -47,24 +47,21 @@ class SalidaLineaController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const id_user = req.body.id_user;
-            const nombre = req.body.nombre_user;
-            delete req.body.id_user;
-            delete req.body.nombre_user;
-            yield database_1.default.query('set @id_usuario=?', [id_user]);
-            yield database_1.default.query('set @nombre=?', [nombre]);
-            yield database_1.default.query('insert into salida_linea set ?', [req.body]);
-            res.json({ message: 'Creado con exito' });
+            try {
+                yield database_1.default.query('insert into salida_linea set ?', [req.body]);
+                return res.json({ message: 'Creado con exito' });
+            }
+            catch (_a) {
+                return res.json({ message: false });
+            }
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const datos = JSON.parse(req.params.id);
-            const id_user = datos.id_user;
-            const nombre_user = datos.nombre_user;
-            const id = datos.id;
-            yield database_1.default.query('set @id_usuario=?', [id_user]);
-            yield database_1.default.query('set @nombre=?', [nombre_user]);
+            var id = datos.id;
+            delete datos.id;
+            yield database_1.default.query('update salida_linea set ? where nro_orden=?', [datos, id]);
             yield database_1.default.query('delete from salida_linea where nro_orden= ?', [id]);
             res.json({ message: 'Eliminado con exito' });
         });
@@ -72,13 +69,6 @@ class SalidaLineaController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            var id_user = req.body.id_user;
-            var nombre_user = req.body.nombre_user;
-            console.log(id_user);
-            yield database_1.default.query('select @id_usuario := ?, @nombre:=?', [id_user, nombre_user]);
-            //await pool.query('select @nombre := ?',[nombre_user]);
-            delete req.body.id_user;
-            delete req.body.nombre_user;
             yield database_1.default.query('update salida_linea set ? where nro_orden=?', [req.body, id]);
             res.json({ message: 'Actualizado con exito' });
         });

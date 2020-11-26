@@ -10,6 +10,8 @@ class UsuarioRoutes {
     config():void{
         this.router.get('/', usuarioController.list);
         this.router.get('/getone/:id',usuarioController.getOne);
+        this.router.get('/logout/:id',usuarioController.logout);
+      
         this.router.get('/rol/',usuarioController.getrol);
         this.router.get('/menu/:id',usuarioController.getmenu);
         this.router.post('/', usuarioController.create); 

@@ -33,5 +33,11 @@ class AuditoriasAlmacenController {
             res.json(query);
         });
     }
+    getSesiones(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = yield database_1.default.query('SELECT * FROM `usuarios_logs` ORDER BY `usuarios_logs`.`fecha` ASC ');
+            res.json(query);
+        });
+    }
 }
 exports.auditoriasAlmacenController = new AuditoriasAlmacenController();

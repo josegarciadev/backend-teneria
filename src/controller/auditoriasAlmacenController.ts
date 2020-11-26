@@ -23,6 +23,9 @@ class AuditoriasAlmacenController{
 
         res.json(query);
     }
-
+    public async getSesiones(req:Request, res:Response):Promise<void>{
+        const query =await pool.query('SELECT * FROM `usuarios_logs` ORDER BY `usuarios_logs`.`fecha` ASC ');
+        res.json(query);
+    }
 }
 export const auditoriasAlmacenController = new AuditoriasAlmacenController();

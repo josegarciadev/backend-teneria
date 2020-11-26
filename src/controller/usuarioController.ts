@@ -23,11 +23,16 @@ class UsuarioController{
 
     public async login(req:Request, res:Response):Promise<any>{
        
-        console.log(req.body);
         const query = await pool.query('select * from usuario where user=?',[req.body.user]);
         if(query.length>0){
             let password =query[0].pass;
             if(password == req.body.pass ){
+                var data = {
+                    id_usuario : query[0].id_usuario,
+                    nombre: query[0].nombre+'  '+query[0].apellido,
+                    accion: 'Inicio de sesión'
+                }
+                await pool.query('insert into usuarios_logs set ?',[data]);
                 return res.json(query[0]);
             }else{
                 return res.json({message:false});
@@ -42,26 +47,27 @@ class UsuarioController{
         });
     }
 
-    public async create (req:Request, res: Response):Promise<void>{
-        const id_user=req.body.id_user;
-        const nombre = req.body.nombre_user;
+    public async logout(req:Request, res: Response):Promise<void>{
+        const data = JSON.parse(req.params.id);
         
-        delete req.body.id_user;
-        delete req.body.nombre_user;
-        await pool.query('set @id_usuario=?',[id_user]);
-        await pool.query('set @nombre=?',[nombre]);
+        console.log(data);
+        await pool.query('insert into usuarios_logs set ?',[data]);
+        res.json({message:true});
+    }
+
+    public async create (req:Request, res: Response):Promise<void>{
+       
         await pool.query('insert into usuario set ?',[req.body]);
         res.json({message:'Creado con exito'});
     }
 
     public async delete(req: Request, res: Response):Promise<void>{
         const datos = JSON.parse(req.params.id);
-        const id_user =datos.id_user;
-        const nombre_user = datos.nombre_user;
-        const id = datos.id;
+        var id = datos.id;
+        delete datos.id;
       
-        await pool.query('set @id_usuario=?',[id_user]);
-        await pool.query('set @nombre=?',[nombre_user]);
+        await pool.query('update usuario set ? where id_usuario=?',[datos,id]);
+       
         await pool.query('delete from usuario where id_usuario= ?',[id]);
         res.json({message:'Eliminado con exito'});
     }
@@ -69,16 +75,7 @@ class UsuarioController{
     public async update(req:Request, res:Response):Promise<void>{
         
         const {id} = req.params;
-        var id_user = req.body.id_user;
-        var nombre_user =req.body.nombre_user
-        console.log(id_user);
-         
-    
-        await pool.query('select @id_usuario := ?, @nombre:=?',[id_user,nombre_user]);
-        //await pool.query('select @nombre := ?',[nombre_user]);
-        
-        delete req.body.id_user;
-        delete req.body.nombre_user;
+       
         await pool.query('update usuario set ? where id_usuario=?',[req.body,id]);
         res.json({message:'Actualizado con exito'});
     }
@@ -98,5 +95,7 @@ class UsuarioController{
         });
         
     }
+
+    
 }
 export const usuarioController = new UsuarioController(); 

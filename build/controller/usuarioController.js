@@ -35,11 +35,16 @@ class UsuarioController {
     }
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(req.body);
             const query = yield database_1.default.query('select * from usuario where user=?', [req.body.user]);
             if (query.length > 0) {
                 let password = query[0].pass;
                 if (password == req.body.pass) {
+                    var data = {
+                        id_usuario: query[0].id_usuario,
+                        nombre: query[0].nombre + '  ' + query[0].apellido,
+                        accion: 'Inicio de sesión'
+                    };
+                    yield database_1.default.query('insert into usuarios_logs set ?', [data]);
                     return res.json(query[0]);
                 }
                 else {
@@ -54,14 +59,16 @@ class UsuarioController {
             });
         });
     }
+    logout(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = JSON.parse(req.params.id);
+            console.log(data);
+            yield database_1.default.query('insert into usuarios_logs set ?', [data]);
+            res.json({ message: true });
+        });
+    }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const id_user = req.body.id_user;
-            const nombre = req.body.nombre_user;
-            delete req.body.id_user;
-            delete req.body.nombre_user;
-            yield database_1.default.query('set @id_usuario=?', [id_user]);
-            yield database_1.default.query('set @nombre=?', [nombre]);
             yield database_1.default.query('insert into usuario set ?', [req.body]);
             res.json({ message: 'Creado con exito' });
         });
@@ -69,11 +76,9 @@ class UsuarioController {
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const datos = JSON.parse(req.params.id);
-            const id_user = datos.id_user;
-            const nombre_user = datos.nombre_user;
-            const id = datos.id;
-            yield database_1.default.query('set @id_usuario=?', [id_user]);
-            yield database_1.default.query('set @nombre=?', [nombre_user]);
+            var id = datos.id;
+            delete datos.id;
+            yield database_1.default.query('update usuario set ? where id_usuario=?', [datos, id]);
             yield database_1.default.query('delete from usuario where id_usuario= ?', [id]);
             res.json({ message: 'Eliminado con exito' });
         });
@@ -81,13 +86,6 @@ class UsuarioController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            var id_user = req.body.id_user;
-            var nombre_user = req.body.nombre_user;
-            console.log(id_user);
-            yield database_1.default.query('select @id_usuario := ?, @nombre:=?', [id_user, nombre_user]);
-            //await pool.query('select @nombre := ?',[nombre_user]);
-            delete req.body.id_user;
-            delete req.body.nombre_user;
             yield database_1.default.query('update usuario set ? where id_usuario=?', [req.body, id]);
             res.json({ message: 'Actualizado con exito' });
         });
