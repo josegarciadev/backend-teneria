@@ -51,12 +51,11 @@ class UsuarioController {
                     return res.json({ message: false });
                 }
             }
-            res.status(404).json({
-                message: 'usuario no encontrado'
-            });
-            res.status(200).json({
-                message: 'no funciona'
-            });
+            else {
+                return res.json({
+                    message: 'bad user'
+                });
+            }
         });
     }
     logout(req, res) {

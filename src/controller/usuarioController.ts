@@ -38,13 +38,11 @@ class UsuarioController{
                 return res.json({message:false});
             }
 
+        }else{
+            return res.json({
+                message:'bad user'
+            });
         }
-        res.status(404).json({
-            message:'usuario no encontrado'
-        });
-        res.status(200).json({
-            message:'no funciona'
-        });
     }
 
     public async logout(req:Request, res: Response):Promise<void>{
