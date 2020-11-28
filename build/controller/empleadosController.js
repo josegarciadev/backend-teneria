@@ -56,5 +56,11 @@ class EmpleadosController {
             res.json({ message: 'Actualizado con exito' });
         });
     }
+    empleados(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = yield database_1.default.query('select COUNT(*) as valor from empleados');
+            res.json(query[0]);
+        });
+    }
 }
 exports.empleadosController = new EmpleadosController();

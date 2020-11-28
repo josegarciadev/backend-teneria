@@ -24,7 +24,7 @@ class UsuarioController {
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const query = yield database_1.default.query('select * from usuario where id_usuario=?', [id]);
+            const query = yield database_1.default.query('select *,usuario.rol from usuario inner join roles on usuario.rol=roles.id_rol where id_usuario=?', [id]);
             if (query.length > 0) {
                 return res.json(query[0]);
             }
@@ -105,6 +105,12 @@ class UsuarioController {
             return res.status(404).json({
                 message: 'Error al buscar el id'
             });
+        });
+    }
+    usuarios(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = yield database_1.default.query('select COUNT(*) as valor from usuario');
+            res.json(query[0]);
         });
     }
 }

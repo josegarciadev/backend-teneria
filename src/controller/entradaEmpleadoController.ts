@@ -45,5 +45,10 @@ class EntradaEmpleadosController{
         res.json({message:'Actualizado con exito'});
     }
 
+    public async entradas(req:Request, res:Response):Promise<void>{
+        const query = await pool.query('select COUNT(*) as valor from entrada_empleado');
+        res.json(query[0]);
+    }
+
 }
 export const entradaEmpleadosController = new EntradaEmpleadosController();

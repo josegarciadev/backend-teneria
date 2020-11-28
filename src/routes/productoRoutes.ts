@@ -9,7 +9,8 @@ class ProductosRoutes {
 
     config():void{
         this.router.get('/', productoController.list);
-        this.router.get('/:id',productoController.getOne);
+        this.router.get('/getone/:id',productoController.getOne);
+        this.router.get('/producto',productoController.producto);
         this.router.post('/', productoController.create); 
         this.router.delete('/:id',productoController.delete);
         this.router.put('/:id',productoController.update);

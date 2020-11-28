@@ -45,5 +45,9 @@ class SalidaEmpleadosController{
         res.json({message:'Actualizado con exito'});
     }
 
+    public async salida(req:Request, res:Response):Promise<void>{
+        const query = await pool.query('select COUNT(*) as valor from salida_empleado');
+        res.json(query[0]);
+    }
 }
 export const salidaEmpleadosController = new SalidaEmpleadosController();

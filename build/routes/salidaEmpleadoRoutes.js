@@ -9,7 +9,8 @@ class SalidaEmpleadosRoutes {
     }
     config() {
         this.router.get('/', salidaEmpleadoController_1.salidaEmpleadosController.list);
-        this.router.get('/:id', salidaEmpleadoController_1.salidaEmpleadosController.getOne);
+        this.router.get('/getone/:id', salidaEmpleadoController_1.salidaEmpleadosController.getOne);
+        this.router.get('/salidas', salidaEmpleadoController_1.salidaEmpleadosController.salida);
         this.router.post('/', salidaEmpleadoController_1.salidaEmpleadosController.create);
         this.router.delete('/:id', salidaEmpleadoController_1.salidaEmpleadosController.delete);
         this.router.put('/:id', salidaEmpleadoController_1.salidaEmpleadosController.update);

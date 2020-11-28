@@ -44,6 +44,9 @@ class EmpleadosController{
         await pool.query('update empleados set ? where id_empleado=?',[req.body,id]);
         res.json({message:'Actualizado con exito'});
     }
-
+    public async empleados(req:Request, res:Response):Promise<void>{
+        const query = await pool.query('select COUNT(*) as valor from empleados');
+        res.json(query[0]);
+    }
 }
 export const empleadosController = new EmpleadosController();

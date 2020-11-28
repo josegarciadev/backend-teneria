@@ -36,6 +36,10 @@ class ProductoController{
         await pool.query('update producto set ? where id_producto=?',[req.body,id]);
         res.json({message:'Actualizado con exito'});
     }
+    public async producto(req:Request, res:Response):Promise<void>{
+        const query = await pool.query('select COUNT(*) as valor from producto');
+        res.json(query[0]);
+    }
 
 }
 export const productoController = new ProductoController();

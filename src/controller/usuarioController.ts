@@ -11,7 +11,7 @@ class UsuarioController{
 
     public async getOne(req:Request, res:Response):Promise<any>{
         const {id} = req.params;
-        const query = await pool.query('select * from usuario where id_usuario=?',[id]);
+        const query = await pool.query('select *,usuario.rol from usuario inner join roles on usuario.rol=roles.id_rol where id_usuario=?',[id]);
         if(query.length>0){
             return res.json(query[0]);
         }
@@ -93,7 +93,10 @@ class UsuarioController{
         });
         
     }
-
+    public async usuarios(req:Request, res:Response):Promise<void>{
+        const query = await pool.query('select COUNT(*) as valor from usuario');
+        res.json(query[0]);
+    }
     
 }
 export const usuarioController = new UsuarioController(); 

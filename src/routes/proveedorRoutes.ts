@@ -9,7 +9,8 @@ class ProveedorRoutes {
 
     config():void{
         this.router.get('/', proveedorController.list);
-        this.router.get('/:id',proveedorController.getOne);
+        this.router.get('/getone/:id',proveedorController.getOne);
+        this.router.get('/proveedor',proveedorController.proveedor);
         this.router.post('/', proveedorController.create); 
         this.router.delete('/:id',proveedorController.delete);
         this.router.put('/:id',proveedorController.update);

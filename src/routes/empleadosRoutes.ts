@@ -9,7 +9,8 @@ class EmpleadosRoutes {
 
     config():void{
         this.router.get('/', empleadosController.list);
-        this.router.get('/:id',empleadosController.getOne);
+        this.router.get('/getone/:id',empleadosController.getOne);
+        this.router.get('/empleado',empleadosController.empleados);
         this.router.post('/', empleadosController.create); 
         this.router.delete('/:id',empleadosController.delete);
         this.router.put('/:id',empleadosController.update);
